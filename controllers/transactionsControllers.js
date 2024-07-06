@@ -16,4 +16,23 @@ router.get("/:id", (req, res) => {
     }
 })
 
+router.post("/", (req, res) => {
+    const currentItem = { id: transactionsArray.length + 1, ...req.body }
+    transactionsArray.push(currentItem);
+
+    res.status(201).send(transactionsArray[transactionsArray.length - 1]);
+});
+
+router.delete("/:id", (req, res) => {
+    const { id } = req.params;
+    const itemDeleteIndex = transactionsArray.findIndex((item) => item.id === +id);
+    
+    if (itemDeleteIndex !== -1) {
+        transactionsArray.splice(itemDeleteIndex, 1)
+        res.redirect("/transactions");
+    } else {
+        res.status(404).json({error: `Item with id: ${id} not found!`})
+    };
+})
+
 module.exports = router;
