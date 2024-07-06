@@ -35,4 +35,16 @@ router.delete("/:id", (req, res) => {
     };
 })
 
+router.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const itemUpdateIndex = transactionsArray.findIndex((item) => item.id === +id);
+
+    if (itemUpdateIndex !== -1) {
+        transactionsArray[itemUpdateIndex] = req.body
+        res.status(200).json(transactionsArray[itemUpdateIndex])
+    } else {
+        res.status(404).send({error: `Item with id: ${id} not found!`});
+    }
+})
+
 module.exports = router;
